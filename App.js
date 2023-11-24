@@ -1,47 +1,50 @@
 import React from "react";
-import { StyleSheet, SafeAreaView, Text } from "react-native";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  FlatList,
+  Button,
+  TextInput,
+} from "react-native";
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.h1}>Hello CodeSandbox</Text>
-        <Text style={styles.h2}>
-          Start editing to see some magic happen, even on your mobile device!
-        </Text>
-        <br />
-        <br />
-        <Text style={styles.paragraph}>
-          Open Expo on your mobile device with scanning the QR code in the
-          application log under the start tab.
-        </Text>
-      </SafeAreaView>
-    );
-  }
+export default function App() {
+  const [data, setData] = React.useState("");
+  const [todo, setTodo] = React.useState([""]);
+  const [data1, setData1] = React.useState({
+    item1: "Item 1",
+    item2: "Item 2",
+    item3: "Item 3",
+  });
+
+  const add = (data) => {
+    if (data == "") {
+      setTodo([...todo]);
+    } else {
+      setTodo([...todo, data]);
+    }
+    setData("");
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ padding: 20 }}>
+        <Text style={{ fontSize: 20 }}>Only Add Text</Text>
+        <TextInput
+          style={{ height: 40, borderColor: "red", borderWidth: 1 }}
+          placeholder="Enter Text"
+          onChangeText={(text) => setData(text)}
+          value={data}
+        />
+
+        <Button title="Add" onPress={() => add(data)} />
+        <FlatList
+          data={todo}
+          renderItem={({ item }) => (
+            <Text style={{ fontSize: 20 }}>{`\u2043 ${item}`}</Text>
+          )}
+        />
+      </View>
+    </SafeAreaView>
+  );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "#ecf0f1",
-    padding: 8,
-  },
-  paragraph: {
-    margin: 8,
-    fontSize: 16,
-    textAlign: "center",
-  },
-  h1: {
-    margin: 28,
-    fontSize: 36,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  h2: {
-    margin: 16,
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-});
